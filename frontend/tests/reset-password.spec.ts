@@ -27,6 +27,13 @@ test("Continue button is visible", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Continue" })).toBeVisible()
 })
 
+test("Recover password with invalid email", async ({ page }) => {
+  await page.goto("/recover-password")
+  await page.getByTestId("email-input").fill("invalidemail")
+  await page.getByRole("button", { name: "Continue" }).click()
+  await expect(page.getByText("Invalid email address")).toBeVisible()
+})
+
 test("User can reset password successfully using the link", async ({
   page,
   request,

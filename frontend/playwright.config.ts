@@ -84,8 +84,9 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'bun run dev',
+    command: 'bun run build && vite preview --strictPort',
     url: 'http://localhost:5173',
     reuseExistingServer: !process.env.CI,
+    timeout: 120_000,
   },
 });
