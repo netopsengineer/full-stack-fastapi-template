@@ -7,19 +7,22 @@ import {
 import { createRouter, RouterProvider } from "@tanstack/react-router"
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
-import { ApiError, OpenAPI } from "./client"
+import { ApiError, client } from "./api"
 import { ThemeProvider } from "./components/theme-provider"
 import { Toaster } from "./components/ui/sonner"
 import "./index.css"
 import { routeTree } from "./routeTree.gen"
 
-OpenAPI.BASE = import.meta.env.VITE_API_URL
-OpenAPI.TOKEN = async () => {
-  return localStorage.getItem("access_token") || ""
-}
+client.setConfig({
+  baseURL: import.meta.env.VITE_API_URL,
+  auth: () => localStorage.getItem("access_token") || "",
+})
 
 const handleApiError = (error: Error) => {
-  if (error instanceof ApiError && [401, 403].includes(error.status)) {
+  if (
+    error instanceof ApiError &&
+    [401, 403].includes(error.response?.status ?? 0)
+  ) {
     localStorage.removeItem("access_token")
     window.location.href = "/login"
   }

@@ -5,7 +5,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { type ItemPublic, ItemsService } from "@/client"
+import { type ItemPublic, ItemsService } from "@/api"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
