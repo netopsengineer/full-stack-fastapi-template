@@ -1,5 +1,10 @@
 FROM python:3.13.17-slim-bookworm
 
+# Compose health checks use curl; refresh the OS trust bundle as well.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV PYTHONUNBUFFERED=1
 
 # Install uv
