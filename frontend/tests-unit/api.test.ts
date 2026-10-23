@@ -79,3 +79,25 @@ test("authorization failures reject instead of becoming successful results", asy
     response: { status: 401 },
   })
 })
+
+test("rotated tokens and logout are reflected on every request", async () => {
+  const request = capture({ id: "user-123" })
+  let token = "first-token"
+  client.setConfig({ auth: () => token })
+  await UsersService.readUserMe()
+  expect(request().headers.get("Authorization")).toBe("Bearer first-token")
+  token = "second-token"
+  await UsersService.readUserMe()
+  expect(request().headers.get("Authorization")).toBe("Bearer second-token")
+  token = ""
+  await UsersService.readUserMe()
+  expect(request().headers.has("Authorization")).toBe(false)
+})
+
+test("password recovery encodes email as one path component", async () => {
+  const request = capture({ message: "sent" })
+  await LoginService.recoverPassword({ email: "test+tag@example.com" })
+  expect(request().url).toBe(
+    "/api/v1/password-recovery/test%2Btag%40example.com",
+  )
+})
