@@ -8,4 +8,6 @@ uv run python -c "import app.main; import json; print(json.dumps(app.main.app.op
 cd ..
 mv openapi.json frontend/
 bun run --filter frontend generate-client
+# Normalize generated whitespace without changing generated semantics.
+find frontend/src/client -name '*.ts' -exec sed -i 's/[[:blank:]]*$//' {} +
 bun run lint

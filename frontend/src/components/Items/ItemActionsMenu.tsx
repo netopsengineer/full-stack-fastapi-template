@@ -1,7 +1,7 @@
 import { EllipsisVertical } from "lucide-react"
 import { useState } from "react"
 
-import type { ItemPublic } from "@/client"
+import type { ItemPublic } from "@/api"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
